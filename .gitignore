@@ -1,6 +1,8 @@
 .env
 *testing*
 *_log.txt
+*.csv
+*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,13 +1,9 @@
 import streamlit as st
-# from llm_model import generate_answer_with_source
 from streamlit.components.v1 import html
-# from open_ai_agent_qa_conv import bm_ai
 import requests, json
 
-# st.title('Capres Pemilu QnA')
-# st.header('Yuk Lebih Melek Politik!')
-st.title('Iklim dan Sustainability QnA')
-st.header('Yuk Lebih Melek Lingkungan!')
+st.title('HetioNet QnA')
+st.header('Ask a Biomedical Knowledge Graph!')
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -27,7 +23,7 @@ for message in st.session_state.messages:
 # while True:
 # for i in range(3):
 if question := st.chat_input("Say something"):
-    url = 'http://127.0.0.1:8080/thematic_search'
+    url = 'http://127.0.0.1:8001/ask_hetionet'
     history_json = json.dumps(st.session_state.messages)
     # myobj = {'question': question, 'chat_history':history_json}
 
@@ -38,18 +34,14 @@ if question := st.chat_input("Say something"):
     with st.spinner('Processing..'):
         api_response = requests.get(url + f'?q={question}')
         result_json = api_response.json()
-        response  = result_json['refined_answer']
-        sources = result_json['sources']
-        sources = 'Temukan informasi lebih lanjut di\n' + '\n\n'.join(sources)
+        response  = result_json['query_engine_response']
       
     # Display Assistant response in chat message container
     with st.chat_message("Assistant"):
         st.markdown(response)
-        st.markdown(sources)
     
     # Add Assistant response to chat history
     st.session_state.messages.append({"role": "Assistant", "content": response})  # sources is added here so that it can appear when streamlit reruns, ideally it should not be included because the message history is passed to LLM to generate history-modified question
-    st.session_state.messages.append({"role": "Assistant", "content": sources})
     
 css = '''
 <style>
