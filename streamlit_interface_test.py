@@ -10,7 +10,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 with st.chat_message("Assistant"):
-    conv_start = "Hello! Mau Tanya Apa Hari Ini?"
+    conv_start = "Hello! how can i help?"
     st.markdown(conv_start)
     # st.session_state.messages.append({"role": "Assistant", "content": conv_start})
 

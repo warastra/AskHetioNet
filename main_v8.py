@@ -18,7 +18,12 @@ AURA_USER = os.environ.get('AURA_USER')
 AURA_PASS = os.environ.get('AURA_PASS')   
 HETIONET_URL='bolt://neo4j.het.io:7687'
 
-hetionetQA = graph_QA(engine_type='climate')
+hetionetQA = graph_QA(
+        url = AURA_URI, # Aura instance URL
+        user=AURA_USER, # Aura instance username
+        pwd=AURA_PASS,  # Aura instance password
+        db='neo4j'      # Aura instance database name, the default is 'neo4j'
+    )
 app = FastAPI()
 
 query_params = {"q": (str, "me")}
@@ -36,11 +41,12 @@ async def get_hetio_answer(params: query_model = Depends()):
     except Exception as e:
         print(e)
         answer ={
-            'query_engine_response':'No relevant documents found', 
+            'query_engine_response':'No information found', 
             'raw_query_str':query,
             'query_with_context':query
         }
     return answer
 
 if __name__ == "__main__":
+    print('starting local FastAPI server with Uvicorn')
     uvicorn.run("main_v8:app", host="0.0.0.0", port=8001, reload=True)

@@ -78,7 +78,7 @@ RETURN s.name as SideEffect, COUNT(distinct c) AS drugCount
 ORDER BY drugCount DESC
 
 Example 2
-Question: which genes in chromosome 2 that are associated with disease that attacks both digestive system and hematopoietic system? 
+Question: Name three genes in chromosome 2 associated with disease that attacks both digestive system and hematopoietic system? 
 MATCH (g:Gene)-[:IS_ASSOCIATED_WITH]-(d:Disease)-[:LOCALIZES]-(a:Anatomy)
 WHERE  g.chromosome = '2'
     AND (a.name = 'digestive system' or a.name = 'hematopoietic system')
